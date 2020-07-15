@@ -1,0 +1,113 @@
+@startuml
+
+title Chess - Class Diagram - Domain model
+
+
+
+
+class Game
+abstract class Piece{
+-boolean alive 
+-boolean white
++ setWhite(boolean)
++ boolean isWhite()
++ boolean isAlive()
++ boolean kill();
++{abstract} boolean canMove(board, start, end)
+}
+Board <-up- Piece
+
+class Board
+class Player
+class Move
+class Spot{
+-int x,y
++ setPiece()
++ getPiece()
+}
+
+King -up-|> Piece
+Queen -up-|> Piece
+Rook -up-|> Piece
+Bishop -up-|> Piece
+Knight -up-|> Piece
+Pawn -up-|> Piece
+
+class King{
+ + boolean canMove(board, start, end)
+}
+class Queen{
+ + boolean canMove(board, start, end)
+}
+class Rook{
+ + boolean canMove(board, start, end)
+}
+class Bishop{
+ + boolean canMove(board, start, end)
+}
+class Knight{
+ + boolean canMove(board, start, end)
+}
+
+class Pawn{
+ + boolean canMove(board, start, end)
+}
+
+class Board{
+- Spot[][] boxes
++ Spot getBox(x,y)
++ void resetBoard()
+
+}
+
+Board "1"*-down-"8x8" Spot
+Spot "1"*-down-"0..1" Piece
+
+
+class Player{
+-boolean whiteSide
++boolean isWhiteSide()
+}
+
+class Move{
+-Player player
+-Spot start
+-Spot end
+-Piece pieceMoved
+-Piece pieceKilled
++Move(Player player, Spot start,Spot end)
+}
+
+Move "1"*-down-"1"  Player
+Move "1"*-down-"2" Spot
+Move "1"*-down-"2" Piece
+
+enum GameStatus {
+    BLACK_WIN, 
+    WHITE_WIN, 
+    STALEMATE, 
+    RESIGNATION,
+    ACTIVE
+}
+
+class Game{
+-Player[] players
+-Board board
+-Player turn
+-GameStatus status
+-List<Move> pastMoves
++void init(player1,player2)
++boolean isFinished()
++GameStatus getStatus()
++void setStatus(gameStatus
++boolean playerMove(player,startX,startY,endX,endY)
+}
+
+Game "1"*-down-"2"  Player
+Game "1"*-down-"1"  Board
+Game "1"*-down-"1"  GameStatus
+Game o--"n"  Move
+
+
+@enduml
+
