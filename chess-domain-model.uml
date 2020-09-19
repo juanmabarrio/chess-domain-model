@@ -2,22 +2,13 @@
 
 title Chess - Class Diagram - Domain model
 
-package Utils {
+package utils {
     class WithConsoleModel
 }
 
 package Chess {
 class Game
-abstract class Piece{
--boolean killed 
--boolean white
-+ setWhite(boolean)
-+ boolean isWhite()
-+ boolean isKilled()
-+ boolean kill()
-+ boolean canMove(board, start, end)
-+ boolean {abstract} specificPieceCanMove(board, start, end)
-}
+
 Game -up-|> WithConsoleModel
 Board <-up- Piece
 
@@ -37,6 +28,17 @@ Bishop -up-|> Piece
 Knight -up-|> Piece
 Pawn -up-|> Piece
 
+
+abstract class Piece{
+-boolean killed 
+-boolean white
++ setWhite(boolean)
++ boolean isWhite()
++ boolean isKilled()
++ boolean kill()
++ boolean canMove(board, start, end)
++ boolean {abstract} specificPieceCanMove(board, start, end)
+}
 class King{
  + boolean specificPieceCanMove(board, start, end)
 }
@@ -61,6 +63,7 @@ class Board{
 - Spot[][] boxes
 + Spot getBox(x,y)
 + void resetBoard()
++ boolean anyPieceInBetween(start, end)
 
 }
 
