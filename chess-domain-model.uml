@@ -2,19 +2,23 @@
 
 title Chess - Class Diagram - Domain model
 
+package Utils {
+    class WithConsoleModel
+}
 
-
-
+package Chess {
 class Game
 abstract class Piece{
--boolean alive 
+-boolean killed 
 -boolean white
 + setWhite(boolean)
 + boolean isWhite()
-+ boolean isAlive()
-+ boolean kill();
-+{abstract} boolean canMove(board, start, end)
++ boolean isKilled()
++ boolean kill()
++ boolean canMove(board, start, end)
++ boolean {abstract} specificPieceCanMove(board, start, end)
 }
+Game -up-|> WithConsoleModel
 Board <-up- Piece
 
 class Board
@@ -34,23 +38,23 @@ Knight -up-|> Piece
 Pawn -up-|> Piece
 
 class King{
- + boolean canMove(board, start, end)
+ + boolean specificPieceCanMove(board, start, end)
 }
 class Queen{
- + boolean canMove(board, start, end)
+ + boolean specificPieceCanMove(board, start, end)
 }
 class Rook{
- + boolean canMove(board, start, end)
+ + boolean specificPieceCanMove(board, start, end)
 }
 class Bishop{
- + boolean canMove(board, start, end)
+ + boolean specificPieceCanMove(board, start, end)
 }
 class Knight{
- + boolean canMove(board, start, end)
+ + boolean specificPieceCanMove(board, start, end)
 }
 
 class Pawn{
- + boolean canMove(board, start, end)
+ + boolean specificPieceCanMove(board, start, end)
 }
 
 class Board{
@@ -86,7 +90,6 @@ enum GameStatus {
     BLACK_WIN, 
     WHITE_WIN, 
     STALEMATE, 
-    RESIGNATION,
     ACTIVE
 }
 
@@ -103,11 +106,22 @@ class Game{
 +boolean playerMove(player,startX,startY,endX,endY)
 }
 
+enum Message{
+    TITLE,
+	BLACK_WINS,
+	WHITE_WINS,
+	STALEMATE,
+	CHOOSE_YOUR_MOVE,
+	WHITE,
+	BLACK,
+	ILLEGAL_MOVE;
+	}
+
+Game --> Message
 Game "1"*-down-"2"  Player
 Game "1"*-down-"1"  Board
 Game "1"*-down-"1"  GameStatus
 Game o--"n"  Move
-
+}
 
 @enduml
-
